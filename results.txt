@@ -988,3 +988,489 @@ Code quality: ?/0.5
 Running time: 2023_02_08-01:38:35
 
 ===========================================
+test_bne_grid_1 (__main__.TestBinaryGrid) ... ok
+test_bne_grid_2 (__main__.TestBinaryGrid) ... ok
+test_bne_grid_3 (__main__.TestBinaryGrid) ... ok
+test_bne_grid_4 (__main__.TestBinaryGrid) ... ok
+test_bne_grid_5 (__main__.TestBinaryGrid) ... ok
+test_cage_existence (__main__.TestCageConstraints) ... ERROR
+test_cages_1 (__main__.TestCageConstraints) ... FAIL
+test_cages_2 (__main__.TestCageConstraints) ... FAIL
+test_cages_3 (__main__.TestCageConstraints) ... FAIL
+test_cages_4 (__main__.TestCageConstraints) ... FAIL
+test_cages_5 (__main__.TestCageConstraints) ... FAIL
+test_cages_6 (__main__.TestCageConstraints) ... FAIL
+test_dh_1 (__main__.TestDH) ... ok
+test_dh_2 (__main__.TestDH) ... ok
+test_dh_3 (__main__.TestDH) ... ok
+test_dh_4 (__main__.TestDH) ... ok
+test_mrv_1 (__main__.TestMRV) ... ok
+test_mrv_2 (__main__.TestMRV) ... ok
+test_mrv_3 (__main__.TestMRV) ... ok
+test_mrv_4 (__main__.TestMRV) ... ok
+test_nary_grid_1 (__main__.TestNaryGrid) ... ok
+test_nary_grid_2 (__main__.TestNaryGrid) ... ok
+test_nary_grid_3 (__main__.TestNaryGrid) ... ok
+test_nary_grid_4 (__main__.TestNaryGrid) ... ok
+test_bin_prop_fc_0 (__main__.TestPropFC) ... ok
+test_bin_prop_fc_1 (__main__.TestPropFC) ... ok
+test_bin_prop_fc_2 (__main__.TestPropFC) ... ok
+test_bin_prop_fc_3 (__main__.TestPropFC) ... ok
+test_bin_prop_fc_4 (__main__.TestPropFC) ... ok
+test_prop_fc_0 (__main__.TestPropFC) ... ok
+test_prop_fc_1 (__main__.TestPropFC) ... ok
+test_prop_fc_2 (__main__.TestPropFC) ... ok
+test_prop_fc_3 (__main__.TestPropFC) ... ok
+test_prop_fc_4 (__main__.TestPropFC) ... ok
+test_prop_GAC_0 (__main__.TestPropGAC) ... ok
+test_prop_GAC_1 (__main__.TestPropGAC) ... ok
+test_prop_GAC_2 (__main__.TestPropGAC) ... ok
+test_prop_GAC_3 (__main__.TestPropGAC) ... ok
+test_prop_GAC_4 (__main__.TestPropGAC) ... ok
+test_prop_GAC_5 (__main__.TestPropGAC) ... ok
+test_prop_GAC_6 (__main__.TestPropGAC) ... ok
+test_prop_GAC_7 (__main__.TestPropGAC) ... ok
+test_prop_GAC_8 (__main__.TestPropGAC) ... ok
+test_prop_GAC_9 (__main__.TestPropGAC) ... ok
+
+======================================================================
+ERROR: test_cage_existence (__main__.TestCageConstraints)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "d:\GitHub\cisc-352\autograder_stu.py", line 615, in test_cage_existence
+    csp, var_array = cagey_csp_model(board)
+  File "d:\GitHub\cisc-352\cagey_csp.py", line 270, in cagey_csp_model
+    size = cagey_grid[0][0]
+TypeError: 'int' object is not subscriptable
+
+======================================================================
+FAIL: test_cages_1 (__main__.TestCageConstraints)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not subscriptable". Failed to construct board!
+(2, [(4, [(1, 1), (1, 2), (2, 1), (2, 2)], '+')])
+
+
+======================================================================
+FAIL: test_cages_2 (__main__.TestCageConstraints)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not subscriptable". Failed to construct board!
+(2, [(4, [(1, 1), (1, 2), (2, 1), (2, 2)], '-')])
+
+
+======================================================================
+FAIL: test_cages_3 (__main__.TestCageConstraints)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not subscriptable". Failed to construct board!
+(2, [(4, [(1, 1), (1, 2), (2, 1), (2, 2)], '*')])
+
+
+======================================================================
+FAIL: test_cages_4 (__main__.TestCageConstraints)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not subscriptable". Failed to construct board!
+(3, [(10, [(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3)], '+')])
+
+
+======================================================================
+FAIL: test_cages_5 (__main__.TestCageConstraints)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not subscriptable". Failed to construct board!
+(3, [(7, [(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3)], '-')])
+
+
+======================================================================
+FAIL: test_cages_6 (__main__.TestCageConstraints)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not subscriptable". Failed to construct board!
+(3, [(10, [(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3)], '*')])
+
+
+----------------------------------------------------------------------
+Ran 44 tests in 1.989s
+
+FAILED (failures=6, errors=1)
+----------------------------------------------------------------------
+Time spent:
+
+test_bne_grid_1: 0.0010s
+test_bne_grid_2: 0.0010s
+test_bne_grid_3: 0.0020s
+test_bne_grid_4: 0.0060s
+test_bne_grid_5: 0.0170s
+test_nary_grid_1: 0.0010s
+test_nary_grid_2: 0.0000s
+test_nary_grid_3: 0.0030s
+test_nary_grid_4: 0.0299s
+test_bin_prop_fc_0: 0.0000s
+test_bin_prop_fc_1: 0.0020s
+test_bin_prop_fc_2: 0.0020s
+test_bin_prop_fc_3: 0.0020s
+test_bin_prop_fc_4: 0.0020s
+test_prop_fc_0: 0.0010s
+test_prop_fc_1: 0.3640s
+test_prop_fc_2: 0.6730s
+test_prop_fc_3: 0.0020s
+test_prop_fc_4: 0.6134s
+test_prop_GAC_0: 0.0010s
+test_prop_GAC_1: 0.0020s
+test_prop_GAC_2: 0.0030s
+test_prop_GAC_3: 0.0020s
+test_prop_GAC_4: 0.0030s
+test_prop_GAC_5: 0.0130s
+test_prop_GAC_6: 0.0279s
+test_prop_GAC_7: 0.0110s
+test_prop_GAC_8: 0.0957s
+test_prop_GAC_9: 0.0968s
+----------------------------------------------------------------------
+Grades:
+
+FC: 1.0/1.0
+GAC: 1.5/1.5
+MRV: 0.5/0.5
+DH: 0.5/0.5
+BINARY: 0.5/0.5
+NARY: 0.5/0.5
+CAGEY: 0.0/1.0
+
+TOTAL: 4.5/5.5
+Code quality: ?/0.5
+
+Running time: 2023_02_08-01:41:52
+
+===========================================
+test_bne_grid_1 (__main__.TestBinaryGrid) ... ok
+test_bne_grid_2 (__main__.TestBinaryGrid) ... ok
+test_bne_grid_3 (__main__.TestBinaryGrid) ... ok
+test_bne_grid_4 (__main__.TestBinaryGrid) ... ok
+test_bne_grid_5 (__main__.TestBinaryGrid) ... ok
+test_cage_existence (__main__.TestCageConstraints) ... ERROR
+test_cages_1 (__main__.TestCageConstraints) ... FAIL
+test_cages_2 (__main__.TestCageConstraints) ... FAIL
+test_cages_3 (__main__.TestCageConstraints) ... FAIL
+test_cages_4 (__main__.TestCageConstraints) ... FAIL
+test_cages_5 (__main__.TestCageConstraints) ... FAIL
+test_cages_6 (__main__.TestCageConstraints) ... FAIL
+test_dh_1 (__main__.TestDH) ... ok
+test_dh_2 (__main__.TestDH) ... ok
+test_dh_3 (__main__.TestDH) ... ok
+test_dh_4 (__main__.TestDH) ... ok
+test_mrv_1 (__main__.TestMRV) ... ok
+test_mrv_2 (__main__.TestMRV) ... ok
+test_mrv_3 (__main__.TestMRV) ... ok
+test_mrv_4 (__main__.TestMRV) ... ok
+test_nary_grid_1 (__main__.TestNaryGrid) ... ok
+test_nary_grid_2 (__main__.TestNaryGrid) ... ok
+test_nary_grid_3 (__main__.TestNaryGrid) ... ok
+test_nary_grid_4 (__main__.TestNaryGrid) ... ok
+test_bin_prop_fc_0 (__main__.TestPropFC) ... ok
+test_bin_prop_fc_1 (__main__.TestPropFC) ... ok
+test_bin_prop_fc_2 (__main__.TestPropFC) ... ok
+test_bin_prop_fc_3 (__main__.TestPropFC) ... ok
+test_bin_prop_fc_4 (__main__.TestPropFC) ... ok
+test_prop_fc_0 (__main__.TestPropFC) ... ok
+test_prop_fc_1 (__main__.TestPropFC) ... ok
+test_prop_fc_2 (__main__.TestPropFC) ... ok
+test_prop_fc_3 (__main__.TestPropFC) ... ok
+test_prop_fc_4 (__main__.TestPropFC) ... ok
+test_prop_GAC_0 (__main__.TestPropGAC) ... ok
+test_prop_GAC_1 (__main__.TestPropGAC) ... ok
+test_prop_GAC_2 (__main__.TestPropGAC) ... ok
+test_prop_GAC_3 (__main__.TestPropGAC) ... ok
+test_prop_GAC_4 (__main__.TestPropGAC) ... ok
+test_prop_GAC_5 (__main__.TestPropGAC) ... ok
+test_prop_GAC_6 (__main__.TestPropGAC) ... ok
+test_prop_GAC_7 (__main__.TestPropGAC) ... ok
+test_prop_GAC_8 (__main__.TestPropGAC) ... ok
+test_prop_GAC_9 (__main__.TestPropGAC) ... ok
+
+======================================================================
+ERROR: test_cage_existence (__main__.TestCageConstraints)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "d:\GitHub\cisc-352\autograder_stu.py", line 615, in test_cage_existence
+    csp, var_array = cagey_csp_model(board)
+  File "d:\GitHub\cisc-352\cagey_csp.py", line 270, in cagey_csp_model
+    size = cagey_grid[0][0]
+TypeError: 'int' object is not subscriptable
+
+======================================================================
+FAIL: test_cages_1 (__main__.TestCageConstraints)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not subscriptable". Failed to construct board!
+(2, [(4, [(1, 1), (1, 2), (2, 1), (2, 2)], '+')])
+
+
+======================================================================
+FAIL: test_cages_2 (__main__.TestCageConstraints)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not subscriptable". Failed to construct board!
+(2, [(4, [(1, 1), (1, 2), (2, 1), (2, 2)], '-')])
+
+
+======================================================================
+FAIL: test_cages_3 (__main__.TestCageConstraints)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not subscriptable". Failed to construct board!
+(2, [(4, [(1, 1), (1, 2), (2, 1), (2, 2)], '*')])
+
+
+======================================================================
+FAIL: test_cages_4 (__main__.TestCageConstraints)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not subscriptable". Failed to construct board!
+(3, [(10, [(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3)], '+')])
+
+
+======================================================================
+FAIL: test_cages_5 (__main__.TestCageConstraints)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not subscriptable". Failed to construct board!
+(3, [(7, [(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3)], '-')])
+
+
+======================================================================
+FAIL: test_cages_6 (__main__.TestCageConstraints)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not subscriptable". Failed to construct board!
+(3, [(10, [(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3)], '*')])
+
+
+----------------------------------------------------------------------
+Ran 44 tests in 1.965s
+
+FAILED (failures=6, errors=1)
+----------------------------------------------------------------------
+Time spent:
+
+test_bne_grid_1: 0.0010s
+test_bne_grid_2: 0.0010s
+test_bne_grid_3: 0.0020s
+test_bne_grid_4: 0.0060s
+test_bne_grid_5: 0.0170s
+test_nary_grid_1: 0.0000s
+test_nary_grid_2: 0.0010s
+test_nary_grid_3: 0.0040s
+test_nary_grid_4: 0.0309s
+test_bin_prop_fc_0: 0.0000s
+test_bin_prop_fc_1: 0.0020s
+test_bin_prop_fc_2: 0.0020s
+test_bin_prop_fc_3: 0.0010s
+test_bin_prop_fc_4: 0.0020s
+test_prop_fc_0: 0.0010s
+test_prop_fc_1: 0.3421s
+test_prop_fc_2: 0.6602s
+test_prop_fc_3: 0.0010s
+test_prop_fc_4: 0.6303s
+test_prop_GAC_0: 0.0010s
+test_prop_GAC_1: 0.0020s
+test_prop_GAC_2: 0.0020s
+test_prop_GAC_3: 0.0020s
+test_prop_GAC_4: 0.0020s
+test_prop_GAC_5: 0.0100s
+test_prop_GAC_6: 0.0229s
+test_prop_GAC_7: 0.0100s
+test_prop_GAC_8: 0.0977s
+test_prop_GAC_9: 0.0967s
+----------------------------------------------------------------------
+Grades:
+
+FC: 1.0/1.0
+GAC: 1.5/1.5
+MRV: 0.5/0.5
+DH: 0.5/0.5
+BINARY: 0.5/0.5
+NARY: 0.5/0.5
+CAGEY: 0.0/1.0
+
+TOTAL: 4.5/5.5
+Code quality: ?/0.5
+
+Running time: 2023_02_08-02:29:17
+
+===========================================
+test_bne_grid_1 (__main__.TestBinaryGrid) ... ok
+test_bne_grid_2 (__main__.TestBinaryGrid) ... ok
+test_bne_grid_3 (__main__.TestBinaryGrid) ... ok
+test_bne_grid_4 (__main__.TestBinaryGrid) ... ok
+test_bne_grid_5 (__main__.TestBinaryGrid) ... ok
+test_cage_existence (__main__.TestCageConstraints) ... ERROR
+test_cages_1 (__main__.TestCageConstraints) ... FAIL
+test_cages_2 (__main__.TestCageConstraints) ... FAIL
+test_cages_3 (__main__.TestCageConstraints) ... FAIL
+test_cages_4 (__main__.TestCageConstraints) ... FAIL
+test_cages_5 (__main__.TestCageConstraints) ... FAIL
+test_cages_6 (__main__.TestCageConstraints) ... FAIL
+test_dh_1 (__main__.TestDH) ... ok
+test_dh_2 (__main__.TestDH) ... ok
+test_dh_3 (__main__.TestDH) ... ok
+test_dh_4 (__main__.TestDH) ... ok
+test_mrv_1 (__main__.TestMRV) ... ok
+test_mrv_2 (__main__.TestMRV) ... ok
+test_mrv_3 (__main__.TestMRV) ... ok
+test_mrv_4 (__main__.TestMRV) ... ok
+test_nary_grid_1 (__main__.TestNaryGrid) ... ok
+test_nary_grid_2 (__main__.TestNaryGrid) ... ok
+test_nary_grid_3 (__main__.TestNaryGrid) ... ok
+test_nary_grid_4 (__main__.TestNaryGrid) ... ok
+test_bin_prop_fc_0 (__main__.TestPropFC) ... ok
+test_bin_prop_fc_1 (__main__.TestPropFC) ... ok
+test_bin_prop_fc_2 (__main__.TestPropFC) ... ok
+test_bin_prop_fc_3 (__main__.TestPropFC) ... ok
+test_bin_prop_fc_4 (__main__.TestPropFC) ... ok
+test_prop_fc_0 (__main__.TestPropFC) ... ok
+test_prop_fc_1 (__main__.TestPropFC) ... ok
+test_prop_fc_2 (__main__.TestPropFC) ... ok
+test_prop_fc_3 (__main__.TestPropFC) ... ok
+test_prop_fc_4 (__main__.TestPropFC) ... ok
+test_prop_GAC_0 (__main__.TestPropGAC) ... ok
+test_prop_GAC_1 (__main__.TestPropGAC) ... ok
+test_prop_GAC_2 (__main__.TestPropGAC) ... ok
+test_prop_GAC_3 (__main__.TestPropGAC) ... ok
+test_prop_GAC_4 (__main__.TestPropGAC) ... ok
+test_prop_GAC_5 (__main__.TestPropGAC) ... ok
+test_prop_GAC_6 (__main__.TestPropGAC) ... ok
+test_prop_GAC_7 (__main__.TestPropGAC) ... ok
+test_prop_GAC_8 (__main__.TestPropGAC) ... ok
+test_prop_GAC_9 (__main__.TestPropGAC) ... ok
+
+======================================================================
+ERROR: test_cage_existence (__main__.TestCageConstraints)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "d:\GitHub\cisc-352\autograder_stu.py", line 615, in test_cage_existence
+    csp, var_array = cagey_csp_model(board)
+  File "d:\GitHub\cisc-352\cagey_csp.py", line 270, in cagey_csp_model
+    size = cagey_grid[0][0]
+TypeError: 'int' object is not subscriptable
+
+======================================================================
+FAIL: test_cages_1 (__main__.TestCageConstraints)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not subscriptable". Failed to construct board!
+(2, [(4, [(1, 1), (1, 2), (2, 1), (2, 2)], '+')])
+
+
+======================================================================
+FAIL: test_cages_2 (__main__.TestCageConstraints)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not subscriptable". Failed to construct board!
+(2, [(4, [(1, 1), (1, 2), (2, 1), (2, 2)], '-')])
+
+
+======================================================================
+FAIL: test_cages_3 (__main__.TestCageConstraints)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not subscriptable". Failed to construct board!
+(2, [(4, [(1, 1), (1, 2), (2, 1), (2, 2)], '*')])
+
+
+======================================================================
+FAIL: test_cages_4 (__main__.TestCageConstraints)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not subscriptable". Failed to construct board!
+(3, [(10, [(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3)], '+')])
+
+
+======================================================================
+FAIL: test_cages_5 (__main__.TestCageConstraints)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not subscriptable". Failed to construct board!
+(3, [(7, [(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3)], '-')])
+
+
+======================================================================
+FAIL: test_cages_6 (__main__.TestCageConstraints)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not subscriptable". Failed to construct board!
+(3, [(10, [(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3)], '*')])
+
+
+----------------------------------------------------------------------
+Ran 44 tests in 2.006s
+
+FAILED (failures=6, errors=1)
+----------------------------------------------------------------------
+Time spent:
+
+test_bne_grid_1: 0.0010s
+test_bne_grid_2: 0.0000s
+test_bne_grid_3: 0.0020s
+test_bne_grid_4: 0.0070s
+test_bne_grid_5: 0.0249s
+test_nary_grid_1: 0.0000s
+test_nary_grid_2: 0.0000s
+test_nary_grid_3: 0.0040s
+test_nary_grid_4: 0.0339s
+test_bin_prop_fc_0: 0.0000s
+test_bin_prop_fc_1: 0.0020s
+test_bin_prop_fc_2: 0.0020s
+test_bin_prop_fc_3: 0.0020s
+test_bin_prop_fc_4: 0.0020s
+test_prop_fc_0: 0.0010s
+test_prop_fc_1: 0.3541s
+test_prop_fc_2: 0.6732s
+test_prop_fc_3: 0.0010s
+test_prop_fc_4: 0.6174s
+test_prop_GAC_0: 0.0010s
+test_prop_GAC_1: 0.0020s
+test_prop_GAC_2: 0.0030s
+test_prop_GAC_3: 0.0020s
+test_prop_GAC_4: 0.0030s
+test_prop_GAC_5: 0.0130s
+test_prop_GAC_6: 0.0259s
+test_prop_GAC_7: 0.0110s
+test_prop_GAC_8: 0.0968s
+test_prop_GAC_9: 0.1017s
+----------------------------------------------------------------------
+Grades:
+
+FC: 1.0/1.0
+GAC: 1.5/1.5
+MRV: 0.5/0.5
+DH: 0.5/0.5
+BINARY: 0.5/0.5
+NARY: 0.5/0.5
+CAGEY: 0.0/1.0
+
+TOTAL: 4.5/5.5
+Code quality: ?/0.5
+
+Running time: 2023_02_08-02:30:17
+
+===========================================
