@@ -107,11 +107,17 @@ def prop_FC(csp, newVar=None):
             var = c.get_unasgn_vars()[0]
 
             for d in var.cur_domain():
-                vars = c.get_scope()
-                for var2 in vars:
-                    vals.append(var2.get_assigned_value())
-                if not c.check_tuple(vals):  # if False, CSP constraint violated
-                        return False, []
+                if not c.check_var_val(var, d):
+                    pair = (var, d)
+                    for i in vals:
+                        if pair == i:
+                            tfvalue += 1
+                    if(tfvalue == 0):
+                        vals.append(pair)
+                        var.prune_value(d)
+
+            if var.cur_domain_size() == 0:
+                return False, vals
 
     return True, vals
 
@@ -120,6 +126,7 @@ def prop_GAC(csp, newVar=None):
     '''Do GAC propagation. If newVar is None we do initial GAC enforce
        processing all constraints. Otherwise we do GAC enforce with
        constraints containing newVar on GAC Queue'''
+    tfvalue1 = 0
     tfvalue2 = 0
     vals = []
     queue = []
@@ -136,12 +143,18 @@ def prop_GAC(csp, newVar=None):
         c = queue.pop(0)
         for var in c.get_scope():
             for d in var.cur_domain():
-                vars = c.get_scope()
-                for var2 in vars:
-                    vals.append(var2.get_assigned_value())
-                if not c.check_tuple(vals):  # if False, CSP constraint violated
-                        return False, []
-                else:
+                if not c.check_var_val(var, d):
+                    pair = (var, d)
+                    for i in vals:
+                        if pair == i:
+                            tfvalue1 += 1
+                    if(tfvalue1 == 0):
+                        vals.append(pair)
+                        var.prune_value(d)
+                    if var.cur_domain_size() == 0:
+                        queue.clear()
+                        return False, vals
+                    else:
                         for cons in csp.get_cons_with_var(var):
                             for x in queue:
                                 if (cons == x):
