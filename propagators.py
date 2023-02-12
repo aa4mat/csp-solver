@@ -1,5 +1,5 @@
 # =============================
-# Student Names: Aarushi Mathur, Oscan Chen
+# Student Names: Aarushi Mathur, Oscar Chen
 # Group ID: 55
 # Date: 5 February 2023
 # =============================

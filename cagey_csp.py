@@ -1,5 +1,5 @@
 # =============================
-# Student Names: Aarushi Mathur, Oscan Chen
+# Student Names: Aarushi Mathur, Oscar Chen
 # Group ID: 55
 # Date: 5 February 2023
 # =============================
@@ -126,11 +126,11 @@ def binary_ne_grid(cagey_grid):
     # create scopes, create row constraint, add to CSP
     for row in range(1, grid_size+1):
         for i in permutations(range(1, grid_size+1), 2):
-            # note - make this n for  all_diff?
             names = ["Cell(" + str(row) + ", " + str(i[0]) + ")",
                      "Cell(" + str(row) + ", " + str(i[1]) + ")"]
             scope_temp = []
-            for var in variables:  # get Variable that matches name, to add to scope
+            for var in variables:
+                # get Variable that matches name, to add to scope
                 # NOTE - creating a new variable won't work because matching
                 # done by object, not by Variable name
                 if var.name in names:
@@ -147,40 +147,37 @@ def binary_ne_grid(cagey_grid):
     # create scopes, create column constraint, add to CSP
     for col in range(1, grid_size + 1):
         for i in permutations(range(1, grid_size + 1), 2):
-            # note - make this n for  all_diff?
             names = ["Cell(" + str(i[0]) + ", " + str(col) + ")",
                      "Cell(" + str(i[1]) + ", " + str(col) + ")"]
             scope_temp = []
-            for var in variables:  # get Variable that matches name, to add to scope
-                # NOTE - creating a new variable won't work because matching
-                # done by object, not by Variable name
+            for var in variables:
+                # get Variable that matches name, to add to scope
                 if var.name in names:
                     scope_temp.append(var)  # 2 values
 
             scope = [scope_temp[0], scope_temp[1]]
-            # if we maintained a list of scopes, we could cut the constraints in
-            # half as C(x,y) == C(y,x)
+            # if we maintained a list of scopes, we could cut the constraints
+            # in half as C(x,y) == C(y,x)
             cons = Constraint(
                 "Bin-ne-Cell(" + str(i[0]) + str(col) + "), " +
                 "Cell(" + str(i[1]) + str(col) + ")", scope)
 
-            sat_tuple = [tup for tup in
-                         permutations(range(1, grid_size + 1), 2)]
+            sat_tuple = [tup for tup in permutations(range(1, grid_size+1), 2)]
             cons.add_satisfying_tuples(sat_tuple)
             csp.add_constraint(cons)
     return csp, []  # right now we don't care about the grid
 
 
 def nary_ad_grid(cagey_grid):
-    # things to do: construct a binary constraint
+    # things to do: construct row & col allDiff constraints
     # All constraints:
     # 1. Row: for all values in a row i:
     # scope - var-cell(row,j), for j in 0 to n
-    # val Var-Cell(row,j) != val Var-Cell(row, j+1) for all j
+    # val Var-Cell(row,j) != val Var-Cell(row, j+1), ... for all j
     # itertools - sat_tuples.add([(1,2,3), (2,1,3), (1, 3,2), (3,1,2) ... n
     # 2. Col: for all values in column i:
     # scope - var-cell(i,col), for i in 0 to n
-    # val Var-Cell(i,col) != val Var-Cell(i+1,j)
+    # val Var-Cell(i,col) != val Var-Cell(i+1,col)
     # iterate - add sat_tuples([(1,2,3) ...
     # put it all into a CSP
 
@@ -199,15 +196,14 @@ def nary_ad_grid(cagey_grid):
     for row in range(1, grid_size + 1):
         row_scope = list()
         for i in range(1, grid_size + 1):
-            names = list()
-            names.append("Cell({}, {})".format(row, i))
+            name = "Cell({}, {})".format(row, i)
             scope_temp = []
             for var in variables:
                 # get Variable that matches name, to add to scope
                 # NOTE - creating a new variable won't work because matching
                 # done by object, not by Variable name
-                if var.name in names:
-                    if not var in scope_temp:
+                if var.name == name:
+                    if var not in scope_temp:
                         scope_temp.append(var)  # n values
 
             row_scope.extend(scope_temp)
@@ -215,7 +211,8 @@ def nary_ad_grid(cagey_grid):
 
         cons = Constraint("N-ary-allDiff-Row({})".format(row), row_scope)
 
-        sat_tuple = [tup for tup in permutations(range(1, grid_size + 1), grid_size)]
+        sat_tuple = [tup for tup in permutations(range(1, grid_size + 1),
+                                                 grid_size)]
         cons.add_satisfying_tuples(sat_tuple)
         csp.add_constraint(cons)
 
@@ -223,14 +220,11 @@ def nary_ad_grid(cagey_grid):
     for col in range(1, grid_size + 1):
         col_scope = list()
         for i in range(1, grid_size + 1):
-            names = list()
-            names.append("Cell({}, {})".format(i, col))
+            name = "Cell({}, {})".format(i, col)
             scope_temp = []
             for var in variables:
                 # get Variable that matches name, to add to scope
-                # NOTE - creating a new variable won't work because matching
-                # done by object, not by Variable name
-                if var.name in names:
+                if var.name == name:
                     if var not in scope_temp:
                         scope_temp.append(var)  # n values
 
@@ -250,7 +244,7 @@ def nary_ad_grid(cagey_grid):
 def cagey_csp_model(cagey_grid):
     # things to do: construct a nary constraint
     # All constraints:
-    # Row, col - nary
+    # Row, col - n-ary
     # 3. Kenken puzzle constraint:
     # op([vars]) == target
     # scope - cage -> cagey_grid([1][i])
@@ -275,14 +269,11 @@ def cagey_csp_model(cagey_grid):
     for row in range(1, grid_size + 1):
         row_scope = list()
         for i in range(1, grid_size + 1):
-            names = list()     # can be single str?
-            names.append("Cell({}, {})".format(row, i))
+            name = "Cell({}, {})".format(row, i)
             scope_temp = []
             for var in variables:
                 # get Variable that matches name, to add to scope
-                # NOTE - creating a new variable won't work because matching
-                # done by object, not by Variable name
-                if var.name in names:
+                if var.name == name:
                     if var not in scope_temp:
                         scope_temp.append(var)  # n values
 
@@ -300,14 +291,11 @@ def cagey_csp_model(cagey_grid):
     for col in range(1, grid_size + 1):
         col_scope = list()
         for i in range(1, grid_size + 1):
-            names = list()
-            names.append("Cell({}, {})".format(i, col))
+            name = "Cell({}, {})".format(i, col)
             scope_temp = []
             for var in variables:
                 # get Variable that matches name, to add to scope
-                # NOTE - creating a new variable won't work because matching
-                # done by object, not by Variable name
-                if var.name in names:
+                if var.name == name:
                     if var not in scope_temp:
                         scope_temp.append(var)  # n values
 
@@ -326,36 +314,38 @@ def cagey_csp_model(cagey_grid):
     cages = cagey_grid[1]
 
     for cage in cages:
-        target = cage[0]
+        target = cage[0]         # target value
         cage_vars = cage[1]      # list of cells
         cage_op = cage[2]        # get cage operator
         var_op_str = ""     # build string for naming cage operator variable
         cage_scope = list()
-        # build cage constraint scope by looping over
-        # all variables in the cage
+        # build cage constraint scope by looping over all variables in the cage
 
         for i in range(len(cage_vars)):
             var_name = "Cell" + str(cage_vars[i])
             for var in variables:
                 if var.name == var_name:
                     if var not in cage_scope:
-                        # just in case; should be unique already
+                        # just in case; though should be unique already
                         cage_scope.append(var)
                         var_op_str += "Var-Cell({},{}), "\
                             .format(cage_vars[i][0], cage_vars[i][1])
+
         # all cell vars added. Add operator var to scope
-        var_name_string = "Cage_op({}:{}:[{}])".format(target, cage_op, var_op_str[0:-2])
-        # -2: strip final ', '
+        var_name_string = "Cage_op({}:{}:[{}])"\
+            .format(target, cage_op, var_op_str[0:-2])  # -2: strip final ', '
+
         op_var = Variable(var_name_string, ['+', '-', '/', '*', '?'])
         variables.append(op_var)
         csp.add_var(op_var)
         cage_scope.insert(0, op_var)
-        # Keeping var order same as Constraint name in spec
+        # Keeping var order same as Constraint name in A1 spec
         cons = Constraint(var_name_string, cage_scope)
         # since cons name doesn't matter, just naming it the same as the var
 
         # get satisfying tuples for constraint by evaluating:
-        sat_tuples = eval_sat_tuples((len(cage_scope)-1), cage_op, target, grid_size)
+        sat_tuples = eval_sat_tuples((len(cage_scope)-1), cage_op, target,
+                                     grid_size)
         cons.add_satisfying_tuples(sat_tuples)
         csp.add_constraint(cons)
 
@@ -367,11 +357,12 @@ def eval_sat_tuples(n, operator, target, grid_size) -> list:
     returns a list of satisfying tuples [sat_tuples]
     """
     sat_tuples = list()
-    # n => no. of cell vars (excluding cage_op)
+    # n => no. of cell vars (i.e., excluding cage_op)
     if n == 1:  # just 1 var, won't waste computation checking
         return [(operator, target)]
-    # note: if '?' causes problems, fix '+' as default.
 
+    # grid_size corresponds to highest value in var's (int) domain;
+    # n -> number of variables being assigned here (n-tuple)
     for tup in product(range(1, grid_size + 1), repeat=n):
         if (operator == '+') or (operator == '?'):
             if sum(tup) == target:  # satisfies!
@@ -390,7 +381,8 @@ def eval_sat_tuples(n, operator, target, grid_size) -> list:
                 aggr -= tup[i]
             if aggr == target:
                 # add all permutations of this to sat_tuples:
-                # i.e. (1, 2, 3), (1, 3, 2)... all satisfy constraint
+                # i.e. (1, 2, 3), (1, 3, 2)... would all satisfy constraint
+                # if one of them did
                 p_list = [p for p in permutations(tup, n)]
                 sat = []
                 for p in p_list:
