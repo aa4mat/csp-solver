@@ -8,6 +8,7 @@
 # desc:
 #
 
+from ast import operator
 from itertools import product, permutations
 
 # Look for #IMPLEMENT tags in this file.
@@ -246,7 +247,24 @@ def nary_ad_grid(cagey_grid):
         cons.add_satisfying_tuples(sat_tuple)
         csp.add_constraint(cons)
 
-    return csp, []  # right now we don't care about the grid
+    return csp, variables  # right now we don't care about the grid
+
+
+def cagey_check(target, constraint):
+    x = constraint[-1]
+    y = constraint[:-1]
+    try:
+        if len(y) == 1:
+            return target == y[0]
+        if len(y) == 2:
+            return target == eval(f"{y[0]} {x} {y[1]}")
+        else:
+            value = y[0]
+            for i in range(1, len(y)):
+                value = eval(f"{value} {x} {y[i]}")
+            return target == value
+    except ZeroDivisionError:
+        return False
 
 
 def cagey_csp_model(cagey_grid):
@@ -266,99 +284,33 @@ def cagey_csp_model(cagey_grid):
     # -> make helper fn for this
     # put it all into a CSP
 
-    variables = []
-    size = cagey_grid[0][0]
-    n = size
-    csp = CSP("Kenken")
-    for i in range(1, n + 1):
-        row = []
-        for j in range(1, n + 1):
-            row.append(
-                Variable("%d%d" % (i, j), domain=list(range(1, n + 1))))
-        variables.append(row)
-    cons = []
-    kenken_len = len(cagey_grid)
-    for cage in range(1, kenken_len):
-        if (len(cagey_grid[cage]) == 2):
-            row_index = int(str(cagey_grid[cage][0])[0]) - 1
-            col_index = int(str(cagey_grid[cage][0])[1]) - 1
-            target_num = cagey_grid[cage][1]
-            variables[i][j] = Variable("%d%d" % (i, j), [target_num])
-        else:
-            operation = cagey_grid[cage][-1]
-            target_num = cagey_grid[cage][-2]
-            cage_vars = []
-            domain = []
-            for cell in range(len(cagey_grid[cage]) - 2):
-                row = int(str(cagey_grid[cage][cell])[0]) - 1
-                col = int(str(cagey_grid[cage][cell])[1]) - 1
-                cage_vars.append(variables[row][col])
-                domain.append(variables[row][col].domain())
-            cage_tuple = []
-            con = Constraint("cage%d" % (cage), cage_vars)
-            prod_domain = product(*domain)
-            for dom in prod_domain:
-                if (operation == 0):
-                    sum = 0
-                    for num in dom:
-                        sum += num
-                    if (sum == target_num):
-                        cage_tuple.append(dom)
-                elif (operation == 1):
-                    for num in permutations(dom):
-                        sub = num[0]
-                        for n in range(1, len(num)):
-                            sub -= num[n]
-                        if (sub == target_num):
-                            cage_tuple.append(dom)
-                elif (operation == 2):
-                    for num in permutations(dom):
-                        quo = num[0]
-                        for n in range(1, len(num)):
-                            quo = quo / num[n]
-                        if (quo == target_num):
-                            cage_tuple.append(dom)
-                elif (operation == 3):
-                    prod = 1
-                    for num in dom:
-                        prod *= num
-                    if (prod == target_num):
-                        cage_tuple.append(dom)
-            con.add_satisfying_tuples(cage_tuple)
-            cons.append(con)
+    grid_size = cagey_grid[0]
+    n = grid_size
+    csp, variables = nary_ad_grid(cagey_grid)
 
-    for i in range(size):
-        for j in range(size):
-            for k in range(len(variables[i])):
-                if (k > j):
-                    row_var1 = variables[i][j]
-                    row_var2 = variables[i][k]
-                    con = Constraint(
-                        "r%d%d%d%d)" % (i + 1, j + 1, i + 1, k + 1),
-                        [row_var1, row_var2])
-                    row_tuples = []
-                    for dom in product(row_var1.domain(),
-                                       row_var2.domain()):
-                        if dom[0] != dom[1]:
-                            row_tuples.append(dom)
-                    con.add_satisfying_tuples(row_tuples)
-                    cons.append(con)
-                if (k > i):
-                    col_var1 = variables[i][j]
-                    col_var2 = variables[k][j]
-                    con = Constraint(
-                        "c%d%d%d%d)" % (i + 1, j + 1, k + 1, j + 1),
-                        [col_var1, col_var2])
-                    col_tuples = []
-                    for dom in product(col_var1.domain(),
-                                       col_var2.domain()):
-                        if dom[0] != dom[1]:
-                            col_tuples.append(dom)
-                    con.add_satisfying_tuples(col_tuples)
-                    cons.append(con)
-    for row in variables:
-        for var in row:
-            csp.add_var(var)
-    for con in cons:
-        csp.add_constraint(con)
+    for each_cage in cagey_grid[1]:
+        x = each_cage[0]
+        y = each_cage[2]
+        s = []
+        check1=0
+        check2=0
+        operators = ["+","-","*","/"]
+        cage_variable = [variables[(var[0] - 1) * n + (var[1] - 1)] for var in each_cage[1]]
+        constraints = Variable(f"Cage_op({x}:{y}:{cage_variable})", operators)
+
+        csp.add_var(constraints)
+        list1=cage_variable[:]
+        list1.append(constraints)
+        cons=Constraint(f"Cage_op({x}:{y}:{cage_variable})", list1)
+
+        constraints.assign(y)
+
+        var_d = [v.cur_domain() for v in list1]
+        if (y != "?") or (len(cage_variable) == 1):
+            s.extend(item_constraint for item_constraint in product(*var_d) if cagey_check(x, item_constraint))
+
+        cons.add_satisfying_tuples(s)
+        variables.append(constraints)
+        csp.add_constraint(cons)
+
     return csp, variables
