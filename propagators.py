@@ -1,7 +1,7 @@
 # =============================
-# Student Names:
-# Group ID:
-# Date:
+# Student Names: Aarushi Mathur, Oscan Chen
+# Group ID: 55
+# Date: 5 February 2023
 # =============================
 # CISC 352 - W23
 # propagators.py
@@ -162,4 +162,3 @@ def prop_GAC(csp, newVar=None):
                             if (tfvalue2 == 0):
                                 queue.append(cons)
     return True, vals
-

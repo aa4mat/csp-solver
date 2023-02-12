@@ -1,14 +1,13 @@
 # =============================
-# Student Names:
-# Group ID:
-# Date:
+# Student Names: Aarushi Mathur, Oscan Chen
+# Group ID: 55
+# Date: 5 February 2023
 # =============================
 # CISC 352 - W23
 # cagey_csp.py
 # desc:
 #
 
-from ast import operator
 from itertools import product, permutations
 
 # Look for #IMPLEMENT tags in this file.
@@ -105,11 +104,11 @@ def binary_ne_grid(cagey_grid):
     # All constraints:
     # 1. Row: for all values in a row i:
     # scope - var-cell(i,j), for j in 0 to n
-    # val Var-Cell(i,j) != val Var-Cell(i, j+1)
-    # itertools - sat_tuples.add([(1, 2), (2,1), (1, 3), (3, 1) ... n
-    # 2. Col: for all values in column i:
+    # val Var-Cell(i,j) != val Var-Cell(i, j+1), ...
+    # itertools -> sat_tuples.add([(1, 2), (2,1), (1, 3), (3, 1) ... n
+    # 2. Col: for all values in column j:
     # scope - var-cell(i,j), for i in 0 to n
-    # val Var-Cell(i,j) != val Var-Cell(i+1,j)
+    # val Var-Cell(i,j) != val Var-Cell(i+1,j)...
     # iterate - add sat_tuples([(1,2) ...
     # put it all into a CSP
 
@@ -176,13 +175,13 @@ def nary_ad_grid(cagey_grid):
     # things to do: construct a binary constraint
     # All constraints:
     # 1. Row: for all values in a row i:
-    # scope - var-cell(i,j), for j in 0 to n
-    # val Var-Cell(i,j) != val Var-Cell(i, j+1)
-    # itertools - sat_tuples.add([(1, 2), (2,1), (1, 3), (3, 1) ... n
+    # scope - var-cell(row,j), for j in 0 to n
+    # val Var-Cell(row,j) != val Var-Cell(row, j+1) for all j
+    # itertools - sat_tuples.add([(1,2,3), (2,1,3), (1, 3,2), (3,1,2) ... n
     # 2. Col: for all values in column i:
-    # scope - var-cell(i,j), for i in 0 to n
-    # val Var-Cell(i,j) != val Var-Cell(i+1,j)
-    # iterate - add sat_tuples([(1,2) ...
+    # scope - var-cell(i,col), for i in 0 to n
+    # val Var-Cell(i,col) != val Var-Cell(i+1,j)
+    # iterate - add sat_tuples([(1,2,3) ...
     # put it all into a CSP
 
     grid_size = cagey_grid[0]
@@ -202,8 +201,6 @@ def nary_ad_grid(cagey_grid):
         for i in range(1, grid_size + 1):
             names = list()
             names.append("Cell({}, {})".format(row, i))
-            # names = ["Cell(" + str(row) + ", " + str(i[0]) + ")",
-            #          "Cell(" + str(row) + ", " + str(i[1]) + ")"]
             scope_temp = []
             for var in variables:
                 # get Variable that matches name, to add to scope
@@ -234,7 +231,7 @@ def nary_ad_grid(cagey_grid):
                 # NOTE - creating a new variable won't work because matching
                 # done by object, not by Variable name
                 if var.name in names:
-                    if not var in scope_temp:
+                    if var not in scope_temp:
                         scope_temp.append(var)  # n values
 
             col_scope.extend(scope_temp)
@@ -247,70 +244,168 @@ def nary_ad_grid(cagey_grid):
         cons.add_satisfying_tuples(sat_tuple)
         csp.add_constraint(cons)
 
-    return csp, variables  # right now we don't care about the grid
-
-
-def cagey_check(target, constraint):
-    x = constraint[-1]
-    y = constraint[:-1]
-    try:
-        if len(y) == 1:
-            return target == y[0]
-        if len(y) == 2:
-            return target == eval(f"{y[0]} {x} {y[1]}")
-        else:
-            value = y[0]
-            for i in range(1, len(y)):
-                value = eval(f"{value} {x} {y[i]}")
-            return target == value
-    except ZeroDivisionError:
-        return False
+    return csp, []  # right now we don't care about the grid
 
 
 def cagey_csp_model(cagey_grid):
-    # things to do: construct a binary constraint
+    # things to do: construct a nary constraint
     # All constraints:
-    # 1. Row: for all values in a row i:
-    # scope - var-cell(i,j), for j in 0 to n
-    # val Var-Cell(i,j) != val Var-Cell(i, j+1)
-    # itertools - sat_tuples.add([(1, 2), (2,1), (1, 3), (3, 1) ... n
-    # 2. Col: for all values in column i:
-    # scope - var-cell(i,j), for i in 0 to n
-    # val Var-Cell(i,j) != val Var-Cell(i+1,j)
-    # iterate - add sat_tuples([(1,2) ...
-    # 3. NO - Kenken puzzle constraint:
-    # scope - cage - cagey_grid([1][i]
+    # Row, col - nary
+    # 3. Kenken puzzle constraint:
+    # op([vars]) == target
+    # scope - cage -> cagey_grid([1][i])
     # operation on cells with operator == target ([0] of looped)
     # -> make helper fn for this
     # put it all into a CSP
 
+    # === n-ary constraint, copied from prev function ===
+
     grid_size = cagey_grid[0]
-    n = grid_size
-    csp, variables = nary_ad_grid(cagey_grid)
+    csp = CSP("Full-Cagey", [])  # initialise
+    domain = [v for v in range(1, grid_size + 1)]
 
-    for each_cage in cagey_grid[1]:
-        x = each_cage[0]
-        y = each_cage[2]
-        s = []
-        check1=0
-        check2=0
-        operators = ["+","-","*","/"]
-        cage_variable = [variables[(var[0] - 1) * n + (var[1] - 1)] for var in each_cage[1]]
-        constraints = Variable(f"Cage_op({x}:{y}:{cage_variable})", operators)
+    # initialise Variables, add to CSP
+    variables = []
+    for i in product(range(1, grid_size + 1), repeat=2):
+        new_var = Variable(("Cell" + str(i)), domain)
+        variables.append(new_var)
+        csp.add_var(new_var)
 
-        csp.add_var(constraints)
-        list1=cage_variable[:]
-        list1.append(constraints)
-        cons=Constraint(f"Cage_op({x}:{y}:{cage_variable})", list1)
+    # create scopes, create row n-ary constraint, add to CSP
+    for row in range(1, grid_size + 1):
+        row_scope = list()
+        for i in range(1, grid_size + 1):
+            names = list()     # can be single str?
+            names.append("Cell({}, {})".format(row, i))
+            scope_temp = []
+            for var in variables:
+                # get Variable that matches name, to add to scope
+                # NOTE - creating a new variable won't work because matching
+                # done by object, not by Variable name
+                if var.name in names:
+                    if var not in scope_temp:
+                        scope_temp.append(var)  # n values
 
-        constraints.assign(y)
+            row_scope.extend(scope_temp)
+            # create constraint for each ROW
 
-        var_d = [v.cur_domain() for v in list1]
-        if (y != "?") or (len(cage_variable) == 1):
-            s.extend(item_constraint for item_constraint in product(*var_d) if cagey_check(x, item_constraint))
+        cons = Constraint("N-ary-allDiff-Row({})".format(row), row_scope)
 
-        cons.add_satisfying_tuples(s)
-        variables.append(constraints)
+        sat_tuple = [tup for tup in
+                     permutations(range(1, grid_size + 1), grid_size)]
+        cons.add_satisfying_tuples(sat_tuple)
+        csp.add_constraint(cons)
+
+    # create scopes, create column n-ary constraint, add to CSP
+    for col in range(1, grid_size + 1):
+        col_scope = list()
+        for i in range(1, grid_size + 1):
+            names = list()
+            names.append("Cell({}, {})".format(i, col))
+            scope_temp = []
+            for var in variables:
+                # get Variable that matches name, to add to scope
+                # NOTE - creating a new variable won't work because matching
+                # done by object, not by Variable name
+                if var.name in names:
+                    if var not in scope_temp:
+                        scope_temp.append(var)  # n values
+
+            col_scope.extend(scope_temp)
+            # create constraint for each COLUMN
+
+        cons = Constraint("N-ary-allDiff-Column({})".format(col), col_scope)
+
+        sat_tuple = [tup for tup in
+                     permutations(range(1, grid_size + 1), grid_size)]
+        cons.add_satisfying_tuples(sat_tuple)
+        csp.add_constraint(cons)
+
+    # === cage constraints ===
+
+    cages = cagey_grid[1]
+
+    for cage in cages:
+        target = cage[0]
+        cage_vars = cage[1]      # list of cells
+        cage_op = cage[2]        # get cage operator
+        var_op_str = ""     # build string for naming cage operator variable
+        cage_scope = list()
+        # build cage constraint scope by looping over
+        # all variables in the cage
+
+        for i in range(len(cage_vars)):
+            var_name = "Cell" + str(cage_vars[i])
+            for var in variables:
+                if var.name == var_name:
+                    if var not in cage_scope:
+                        # just in case; should be unique already
+                        cage_scope.append(var)
+                        var_op_str += "Var-Cell({},{}), "\
+                            .format(cage_vars[i][0], cage_vars[i][1])
+        # all cell vars added. Add operator var to scope
+        var_name_string = "Cage_op({}:{}:[{}])".format(target, cage_op, var_op_str[0:-2])
+        # -2: strip final ', '
+        op_var = Variable(var_name_string, ['+', '-', '/', '*', '?'])
+        variables.append(op_var)
+        csp.add_var(op_var)
+        cage_scope.insert(0, op_var)
+        # Keeping var order same as Constraint name in spec
+        cons = Constraint(var_name_string, cage_scope)
+        # since cons name doesn't matter, just naming it the same as the var
+
+        # get satisfying tuples for constraint by evaluating:
+        sat_tuples = eval_sat_tuples((len(cage_scope)-1), cage_op, target, grid_size)
+        cons.add_satisfying_tuples(sat_tuples)
         csp.add_constraint(cons)
 
     return csp, variables
+
+
+def eval_sat_tuples(n, operator, target, grid_size) -> list:
+    """An aggregator function to evaluate the constraint,
+    returns a list of satisfying tuples [sat_tuples]
+    """
+    sat_tuples = list()
+    # n => no. of cell vars (excluding cage_op)
+    if n == 1:  # just 1 var, won't waste computation checking
+        return [(operator, target)]
+    # note: if '?' causes problems, fix '+' as default.
+
+    for tup in product(range(1, grid_size + 1), repeat=n):
+        if (operator == '+') or (operator == '?'):
+            if sum(tup) == target:  # satisfies!
+                sat = ('+',) + tup
+                sat_tuples.append(sat)
+        if operator == '*' or (operator == '?'):
+            aggr = tup[0]  # manually multiplying bc my python version is 3.7 :(
+            for i in range(1, len(tup)):
+                aggr *= tup[i]
+            if aggr == target:
+                sat = ('*',) + tup
+                sat_tuples.append(sat)
+        if operator == '-' or (operator == '?'):
+            aggr = tup[0]
+            for i in range(1, len(tup)):
+                aggr -= tup[i]
+            if aggr == target:
+                # add all permutations of this to sat_tuples:
+                # i.e. (1, 2, 3), (1, 3, 2)... all satisfy constraint
+                p_list = [p for p in permutations(tup, n)]
+                sat = []
+                for p in p_list:
+                    sat.append(('-', ) + p)  # include operator
+                sat_tuples.extend(sat)
+        if operator == '/' or (operator == '?'):
+            aggr = tup[0]
+            for i in range(1, len(tup)):
+                aggr = int(aggr / tup[i])   # no fractions
+            if aggr == target:
+                # add all permutations of this to sat_tuples
+                p_list = [p for p in permutations(tup, n)]
+                sat = []
+                for p in p_list:
+                    sat.append(('/',) + p)  # include operator
+                sat_tuples.extend(sat)
+
+    return sat_tuples

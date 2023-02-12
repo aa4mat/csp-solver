@@ -1,7 +1,7 @@
 # =============================
-# Student Names:
-# Group ID:
-# Date:
+# Student Names: Aarushi Mathur, Oscan Chen
+# Group ID: 55
+# Date: 5 February 2023
 # =============================
 # CISC 352 - W23
 # heuristics.py
